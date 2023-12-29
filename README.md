@@ -29,6 +29,7 @@ This test project is has function like
 - Config database in .env
 - Composer Install
 - Npm install
+- Start mysql server
 - Php artisan serve to start the server for laravel
 - Npm run dev or npm run build for vue
 - Go to http://localhost:8000 (default)
