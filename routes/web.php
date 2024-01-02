@@ -20,6 +20,6 @@ Route::get('/', function () {
 
 Route::view('/{any}', 'dashboard')
     ->middleware(['auth'])
-    ->where('any', '^(?!login|register)..*$');
+    ->where('any', '^(?!register)..*$');
 Auth::routes();
 
