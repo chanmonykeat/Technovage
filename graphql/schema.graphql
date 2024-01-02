@@ -41,7 +41,7 @@ type Mutation {
 
     createCustomer(
         name: String! @rules(apply: ["required"])
-        phone_number: String! @rules(apply: ["required"])
+        phone_number: String! @rules(apply: ["required", "unique:customers,phone_number"])
         address: String
         score: Int
         registration_date: DateTime
