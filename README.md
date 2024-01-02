@@ -16,6 +16,7 @@ This test project is has function like
 ### Stacks Version
 
 - Composer 2.6.6
+- PHP 8.1.*
 - Node 18.19.0
 - Sql  Ver 15.1 Distrib 10.3.38-MariaDB
 - Laravel 10
@@ -29,6 +30,8 @@ This test project is has function like
 - Config database in .env
 - Composer Install
 - Npm install
+- Start mysql server
+- Php artisan migrate or php artisan migrate:fresh
 - Php artisan serve to start the server for laravel
 - Npm run dev or npm run build for vue
 - Go to http://localhost:8000 (default)
