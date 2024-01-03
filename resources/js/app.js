@@ -15,19 +15,28 @@ Alpine.start();
 
 import { createApp } from 'vue';
 import router from './router';
+import store from './store';
+import CoreuiVue from '@coreui/vue';
+import CIcon from '@coreui/icons-vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
  * to use in your application's views. An example is included for you.
  */
-import CustomersIndex from './components/customers/CustomersIndex.vue';
+import AppHeader from './components/AppHeader.vue';
+import AppSidebar from './components/AppSidebar.vue';
  
 createApp({
     components: {
-        CustomersIndex
+      'c-sidebar': AppSidebar,
+      'c-header': AppHeader,
     }
-}).use(router).mount('#app')
+})
+  .use(router)
+  .use(store)
+  .use(CoreuiVue)
+  .mount('#app')
 //const app = createApp({});
 
 //import ExampleComponent from './components/ExampleComponent.vue';

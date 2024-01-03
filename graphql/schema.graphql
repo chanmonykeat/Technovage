@@ -33,11 +33,7 @@ type Mutation {
     #     id: ID @rules(apply: ["required"])
     # ): User @delete(model: "App\\User")
 
-    createPurchase(
-        amount: Int @rules(apply: ["required"])
-        customer_id: Int!
-        created_at: DateTime
-    ): Purchase @create
+    createPurchase(input: CreatePurchaseInput! @spread): Purchase @create
 
     createCustomer(
         name: String! @rules(apply: ["required"])
@@ -82,6 +78,19 @@ type User {
     "When the account was last updated."
     updated_at: DateTime!
 }
+input CreatePurchaseInput {
+  amount: Int @rules(apply: ["required"])
+  created_at: DateTime
+  customer: CreateCustomerBelongsTo
+}
+
+input CreateCustomerBelongsTo {
+  connect: ID
+  create: CreateCustomerInput
+}
+input CreateCustomerInput {
+  name: String!
+}
 
 type Customer {
     id: ID!
@@ -107,5 +116,5 @@ type Purchase {
     "When the account was created."
     created_at: DateTime!
 
-    customer_id: Customer! @belongsTo
+    customer: Customer! @belongsTo
 }

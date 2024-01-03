@@ -1,44 +1,13 @@
 <template>
-    <div class="d-flex flex-row">
-        <div class="w-25 card">
-            <div class="card m-3" style="background: var(--cui-teal)">
-                <p class="text-center text-black fw-medium p-2">Users</p>
-                <img src="user.png" class="m-auto" width="90px" alt="Image" />
-                <p class="text-center text-black">Total: {{ users.length }}</p>
-            </div>
-            <div class="card m-3" style="background: var(--cui-teal)">
-                <p class="text-center text-black fw-medium p-2">Customers</p>
-                <img
-                    src="customers.png"
-                    class="m-auto"
-                    width="90px"
-                    alt="Image"
-                />
-                <p class="text-center text-black">
-                    Total: {{ customers.length }}
-                </p>
-            </div>
-            <div class="card m-3" style="background: var(--cui-teal)">
-                <p class="text-center text-black fw-medium p-2">Purchases</p>
-                <img
-                    src="purchase.jpg"
-                    class="m-auto"
-                    width="90px"
-                    alt="Image"
-                />
-                <p class="text-center text-black">
-                    Total: {{ purchases.length }}
-                </p>
-            </div>
-        </div>
-        <div class="card w-75">
+    <div class="d-flex flex-row" style="max-height: 450px;min-height: 450px;">
+        <div class="card w-100">
             <div class="d-flex m-2 flex-row">
                 <div class="w-75">
                     <div class="mt-1 input-group w-75 input-group-lg">
                         <input
                             @input="onChange"
                             class="form-control"
-                            placeholder="Search by name"
+                            placeholder="Search"
                         />
                     </div>
                 </div>
@@ -54,32 +23,32 @@
             </div>
 
             <div
-                class="min-w-full overflow-hidden overflow-x align-middle sm:rounded-md"
+                class="min-w-full overflow-y-auto overflow-x align-middle sm:rounded-md"
             >
                 <table class="w-100 table table-hover">
-                    <thead class="bg-black">
+                    <thead class="bg-secondary">
                         <tr>
-                            <th class="p-4 bg-black text-start">
+                            <th class="p-4 bg-secondary text-start">
                                 <span class="fw-medium text-light uppercase"
                                     >Name</span
                                 >
                             </th>
-                            <th class="p-4 bg-black text-start">
+                            <th class="p-4 bg-secondary text-start">
                                 <span class="fw-medium text-light uppercase"
                                     >Phone Number</span
                                 >
                             </th>
-                            <th class="p-4 bg-black text-start">
+                            <th class="p-4 bg-secondary text-start">
                                 <span class="fw-medium text-light uppercase"
                                     >Address</span
                                 >
                             </th>
-                            <th class="p-4 bg-black text-start">
+                            <th class="p-4 bg-secondary text-start">
                                 <span class="fw-medium text-light uppercase"
                                     >Score</span
                                 >
                             </th>
-                            <th class="p-4 bg-black text-center">
+                            <th class="p-4 bg-secondary text-center">
                                 <span
                                     class="fw-medium text-end text-light uppercase"
                                     >Actions</span
@@ -121,7 +90,7 @@
                                             name: 'purchases.create',
                                             params: { customerId: item.id },
                                         }"
-                                        class="w-50 btn m-auto text-white border border-transparent bg-secondary cursor-pointer"
+                                        class="w-50 btn m-auto text-black border border-transparent bg-light cursor-pointer"
                                         >Purchase</router-link
                                     >
                                     <router-link
@@ -129,7 +98,7 @@
                                             name: 'customers.edit',
                                             params: { id: item.id },
                                         }"
-                                        class="w-50 btn m-auto text-white border border-transparent bg-secondary cursor-pointer"
+                                        class="w-50 btn m-auto text-white border border-transparent bg-info cursor-pointer"
                                         >Edit</router-link
                                     >
                                 </td>
@@ -144,21 +113,15 @@
 
 <script setup>
 import useCustomers from "@/composables/customers";
-import useUsers from "@/composables/users";
-import usePurchases from "@/composables/purchases";
 import { onMounted } from "vue";
 
 const { customers, getCustomers, getSearchCustomers } = useCustomers();
-const { purchases, getPurchases } = usePurchases();
-const { users, getUsers } = useUsers();
 const onChange = (e) => {
     e.preventDefault();
     const { value } = e.target;
     getSearchCustomers(value);
 };
 onMounted(() => {
-    getUsers();
     getCustomers();
-    getPurchases();
 });
 </script>

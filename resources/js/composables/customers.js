@@ -66,6 +66,10 @@ export default function useCustomers() {
                       phone_number
                       address
                       score
+                        purchases {
+                          amount
+                          created_at
+                        }
                     }
                   }`
       }

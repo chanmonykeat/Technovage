@@ -11,6 +11,8 @@ final class SearchCustomerQuery
     public function __invoke($_, array $args)
     {
         // TODO implement the resolver
-      return \App\Models\Customer::where('name', 'like', '%'.$args['search'].'%')->get();
+      return \App\Models\Customer::where('name', 'like', '%'.$args['search'].'%')
+                                    ->orWhere('phone_number', 'like', '%'.$args['search'].'%')
+                                    ->get();
     }
 }

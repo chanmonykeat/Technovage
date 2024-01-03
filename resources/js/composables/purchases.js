@@ -5,9 +5,14 @@ import { useRouter } from 'vue-router'
 export default function usePurchases() {
   const purchase = ref([])
   const purchases = ref([])
+  const byAll = ref(0);
 
   const errors = ref('')
   const router = useRouter()
+
+  const setById = (id) => {
+    byAll.value = id;
+  }
 
   const getPurchases = async () => {
     let response = await axios({
@@ -18,6 +23,12 @@ export default function usePurchases() {
                   purchases
                     {
                       id
+                      amount
+                      created_at
+                      customer {
+                        name
+                        phone_number
+                      }
                     }
                   }`
       }
@@ -64,11 +75,11 @@ export default function usePurchases() {
         method: 'post',
         data: {
           query: `mutation{
-                    createPurchase(
-                    customer_id: ${customerId},
+                    createPurchase(input: {
+                    customer: {connect:${customerId}},
                     amount: ${amount},
                     created_at: "${formatDate(createdAt)}",
-                  )
+                  })
                     {
                       amount
                     }
@@ -90,6 +101,8 @@ export default function usePurchases() {
     return {
       errors,
       purchase,
+      byAll,
+      setById,
       purchases,
       getPurchases,
       storePurchase,
