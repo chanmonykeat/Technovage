@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router'
 export default function useCustomers() {
   const customer = ref([])
   const customers = ref([])
+  const cusNumber = ref('');
 
   const errors = ref('')
   const router = useRouter()
@@ -75,6 +76,7 @@ export default function useCustomers() {
       }
     })
     customer.value = response.data.data.customer
+    cusNumber.value = response.data.data.customer.phone_number
     }
 
   const padTo2Digits = (num) => {
@@ -134,7 +136,6 @@ export default function useCustomers() {
           errors.value = response.data.errors[0].extensions.validation;
       }
         } catch (e) {
-          console.log(e);
           if (e.response.status === 422) {
             for (const key in e.response.data.errors) {
               errors.value = e.response.data.errors
@@ -147,19 +148,24 @@ export default function useCustomers() {
     const updateCustomer = async (data = {}) => {
       errors.value = ''
       const { id , score } = !data.score ? customer._rawValue : data;
+      let body= `id: "${id}",
+                    name: "${customer._rawValue.name}",
+                    address: "${customer._rawValue.address || ''}",
+                    score: ${score},
+                    updated_at: "${formatDate(new Date())}",
+                  `
+      if(customer._rawValue.phone_number !== cusNumber._rawValue) {
+         body += `phone_number: "${customer._rawValue.phone_number}"`;
+      }
+
       try {
-        await axios({
+        const response = await axios({
           url: 'http://localhost:8000/graphql',
           method: 'post',
           data: {
             query: `mutation{
                   updateCustomer(
-                    id: "${id}",
-                    name: "${customer._rawValue.name}",
-                    address: "${customer._rawValue.address || ''}",
-                    phone_number: "${customer._rawValue.phone_number}",
-                    score: ${score},
-                    updated_at: "${formatDate(new Date())}"
+                    ${body}
                   )
                     {
                       score
@@ -167,8 +173,13 @@ export default function useCustomers() {
                   }`
           }
         })
-        await router.push({ name: 'customers.index' })
+      if(!response.data.errors) {
+          await router.push({ name: 'customers.index' })
+      } else {
+          errors.value = response.data.errors[0].extensions.validation;
+      }
       } catch (e) {
+        console.log(e);
         if (e.response.status === 422) {
           for (const key in e.response.data.errors) {
             errors.value = e.response.data.errors

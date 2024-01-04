@@ -20,6 +20,7 @@
 <body>
     <div id="app">
   <div>
+      @auth
        <c-sidebar></c-sidebar>
       <div class="wrapper d-flex flex-column min-vh-100 bg-light">
        <c-header :user="{{ Auth::user() }}"></c-header>
@@ -29,6 +30,13 @@
         </main>
         </div>
       </div>
+      @else
+        <div class="body mt-5 flex-grow-1 px-3">
+        <main>
+            @yield('content')
+        </main>
+        </div>
+      @endauth
     </div>
 </div>
 </body>

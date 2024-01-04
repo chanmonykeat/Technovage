@@ -48,9 +48,9 @@ type Mutation {
     updateCustomer(
         id: ID @rules(apply: ["required"])
         name: String! @rules(apply: ["required"])
-        phone_number: String! @rules(apply: ["required"])
+        phone_number: String @rules(apply: ["unique:customers,phone_number"])
         address: String
-        score: Int!
+        score: Int
         updated_at: DateTime!
     ): Customer @update
 
